@@ -1,0 +1,7 @@
+.card__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 79px;
+    background-color: #FFFFFF;
+}

@@ -1,0 +1,23 @@
+.popup-photo__close-button {
+    width: 41px;
+    height: 41px;
+    background-image: url("../../../images/close.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    padding: 0;
+    align-self: flex-end;
+}
+
+.popup-photo__close-button:focus {
+    outline: none;
+}
+
+@media screen and (max-width: 320px) {
+    .popup-photo__close-button {
+        width: 30px;
+        height: 30px;
+
+    }
+}

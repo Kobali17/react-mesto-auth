@@ -1,0 +1,16 @@
+@import url(__close-button/popup-photo__close-button.css);
+@import url(__img/popup-photo__img.css);
+@import url(__text/popup-photo__text.css);
+@import url(__container/popup-photo__container.css);
+
+.popup-photo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+
+}

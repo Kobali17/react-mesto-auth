@@ -1,0 +1,14 @@
+@import url(__title/sign__title.css);
+@import url(__form/sign__form.css);
+@import url(__input/__input_error/sign__input_error.css);
+@import url(__input/sign__input.css);
+@import url(__save-button/sign__save-button.css);
+@import url(__link/sign__link.css);
+
+.sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}

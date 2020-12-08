@@ -1,0 +1,25 @@
+@import url(__img/card__img.css);
+@import url(__like-button/card__like-button.css);
+@import url(__text/card__text.css);
+@import url(__info/card__info.css);
+@import url(__del-button/card__del-button.css);
+@import url(__like-container/card__like-container.css);
+@import url(__like-data/card__like-data.css);
+@import url(__del-button/card__del-button_hidden.css);
+
+.card {
+    position: relative;
+    width: 282px;
+    height: 361px;
+    display: grid;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+@media screen and (max-width: 620px) {
+    .card {
+        margin: 20px 0 0;
+
+    }
+}

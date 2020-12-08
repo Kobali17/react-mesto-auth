@@ -1,0 +1,23 @@
+.sign__save-button {
+    margin: 216px 0 15px;
+    padding: 0;
+    width: 358px;
+    height: 50px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Inter, 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.sign__save-button:hover {
+    opacity: .8;
+}
+
+.sign__save-button:focus {
+    outline: none;
+}

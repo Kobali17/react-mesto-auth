@@ -1,0 +1,13 @@
+.popup-photo__container {
+    max-width: 816px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+
+@media screen and (max-width: 320px) {
+    .popup-photo__container {
+        max-width: 280px;
+    }
+}
