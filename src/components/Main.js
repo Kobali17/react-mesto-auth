@@ -9,7 +9,7 @@ function Main(props) {
 
   return (
     <>
-    <Header link={'./'} text={'Выход'} />
+    <Header link={'sign-in'} text={'Выход'} onClick={props.onLogOut} />
         <main className="main">
             <section className="profile">
                 <div className="profile__first">

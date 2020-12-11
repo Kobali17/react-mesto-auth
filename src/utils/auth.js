@@ -13,9 +13,9 @@ export function register({ email, password }) {
       if (res.ok) {
         return res.json();
       }
-      return null;
-    })
-    .catch((err) => console.log(err));
+
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
 }
 
 export const logIn = ({ email, password }) => fetch(`${BASE_URL}/signin`, {
@@ -30,15 +30,15 @@ export const logIn = ({ email, password }) => fetch(`${BASE_URL}/signin`, {
     if (res.ok) {
       return res.json();
     }
-    return null;
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
   .then((data) => {
+    console.log(data);
     if (data != null) {
       localStorage.setItem('token', data.token);
     }
     return data;
-  })
-  .catch((err) => console.log(err));
+  });
 
 export const tokenValid = (token) => fetch(`${BASE_URL}/users/me`, {
   method: 'GET',
@@ -52,7 +52,6 @@ export const tokenValid = (token) => fetch(`${BASE_URL}/users/me`, {
     if (res.ok) {
       return res.json();
     }
-    return null;
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
-  .then((res) => res)
-  .catch((err) => console.log(err));
+  .then((res) => res);

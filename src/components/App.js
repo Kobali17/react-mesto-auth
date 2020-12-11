@@ -12,7 +12,7 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
-import * as auth from '../auth';
+import * as auth from '../utils/auth';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
@@ -23,24 +23,24 @@ function App() {
     email: '',
   });
   const [cards, setCards] = React.useState([]);
-  const [isEditAvatarPopupOpen, isEditAvatarClickSet] = React.useState(false);
-  const [isEditProfilePopupOpen, isEditProfilePopupOpenSet] = React.useState(false);
-  const [isAddPlacePopupOpen, isAddPlacePopupOpenSet] = React.useState(false);
-  const [isDelPopupOpen, isDelPopupOpenSet] = React.useState(false);
-  const [selectedCard, selectedCardSet] = React.useState(null);
-  const [delCard, delCardSet] = React.useState(null);
-  const [isInfoToolOpen, isInfoToolOpenSet] = React.useState(false);
-  const [isRegisterSuccess, isRegisterSuccessSet] = React.useState(true);
-  const [loggedIn, loggedInSet] = React.useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarClick] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isDelPopupOpen, setDelPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
+  const [delCard, setDelCard] = React.useState(null);
+  const [isInfoToolOpen, setInfoToolOpen] = React.useState(false);
+  const [isRegisterSuccess, setRegisterSuccess] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   function getInitialData(email) {
-    loggedInSet(true);
+    setLoggedIn(true);
     api.getUserData().then((response) => {
       setUserData({ ...response, email });
       api.getInitialCards().then((resp) => {
         setCards(resp);
       });
-    });
+    }).catch((err) => { console.log(err); });
   }
 
   React.useEffect(() => {
@@ -50,9 +50,9 @@ function App() {
         if (res) {
           getInitialData(res.data.email);
         } else {
-          loggedInSet(false);
+          setLoggedIn(false);
         }
-      });
+      }).catch((err) => { console.log(err); });
     }
   }, []);
 
@@ -65,34 +65,34 @@ function App() {
   }
 
   function handleCardClick(card) {
-    selectedCardSet(card);
+    setSelectedCard(card);
   }
 
   function handleDelClick(card) {
-    delCardSet(card);
-    isDelPopupOpenSet(true);
+    setDelCard(card);
+    setDelPopupOpen(true);
   }
 
   function handleEditAvatarClick() {
-    isEditAvatarClickSet(true);
+    setEditAvatarClick(true);
   }
 
   function handleEditProfileClick() {
-    isEditProfilePopupOpenSet(true);
+    setEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    isAddPlacePopupOpenSet(true);
+    setAddPlacePopupOpen(true);
   }
 
   function closeAllPopups() {
-    isAddPlacePopupOpenSet(false);
-    isEditAvatarClickSet(false);
-    isEditProfilePopupOpenSet(false);
-    isDelPopupOpenSet(false);
-    selectedCardSet(null);
-    delCardSet(null);
-    isInfoToolOpenSet(false);
+    setAddPlacePopupOpen(false);
+    setEditAvatarClick(false);
+    setEditProfilePopupOpen(false);
+    setDelPopupOpen(false);
+    setSelectedCard(null);
+    setDelCard(null);
+    setInfoToolOpen(false);
   }
 
   function handleUpdateUser(userData) {
@@ -146,12 +146,13 @@ function App() {
   function handleRegister(registerData) {
     auth.register(registerData).then((res) => {
       if (res != null) {
-        isRegisterSuccessSet(true);
-        isInfoToolOpenSet(true);
-      } else {
-        isRegisterSuccessSet(false);
-        isInfoToolOpenSet(true);
+        setRegisterSuccess(true);
+        setInfoToolOpen(true);
       }
+    }).catch((err) => {
+      console.log(err);
+      setRegisterSuccess(false);
+      setInfoToolOpen(true);
     });
   }
 
@@ -159,13 +160,17 @@ function App() {
     auth.logIn(loginData).then((res) => {
       if (res != null) {
         getInitialData(loginData.email);
-      } else {
-        isRegisterSuccessSet(false);
-        isInfoToolOpenSet(true);
       }
+    }).catch((err) => {
+      console.log(err); setRegisterSuccess(false);
+      setInfoToolOpen(true);
     });
   }
-
+  function handleLogOut() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    currentUser.email = null;
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
 
@@ -189,6 +194,7 @@ function App() {
                         onEditAvatar={handleEditAvatarClick}
                         onDel={handleDelClick}
                         onImage={handleCardClick}
+                        onLogOut={handleLogOut}
                         isLoggedIn={loggedIn} path={'/'}>
 
           <EditProfilePopup inputText={currentUser}

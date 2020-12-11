@@ -11,7 +11,7 @@ function Header(props) {
             <img className="header__logo" src={logo} alt="Логотип Место"/>
             <div className="header__data">
             <p className="header__email">{currentUser.email}</p>
-            <Link className="header__link" to={props.link}>{props.text}</Link></div>
+            <Link className="header__link" to={props.link} onClick={props.onClick}>{props.text}</Link></div>
         </header>);
 }
 

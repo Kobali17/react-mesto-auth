@@ -6,9 +6,12 @@
     "localStorage": true,
     "fetch":true,
     "console": true,
-    "document": true
+    "document": true,
+    "Promise": true
   },
   "rules": {
+    "prefer-promise-reject-errors": 0,
+    "no-console": 0,
     "import/no-extraneous-dependencies": 0,
     "react/prop-types": 0,
     "no-underscore-dangle": [
