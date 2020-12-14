@@ -1,5 +1,7 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import {
+  Redirect, Route, Switch, useHistory,
+} from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import ImagePopup from './ImagePopup';
@@ -22,6 +24,8 @@ function App() {
     avatar: '',
     email: '',
   });
+  const history = useHistory();
+
   const [cards, setCards] = React.useState([]);
   const [isEditAvatarPopupOpen, setEditAvatarClick] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
@@ -35,17 +39,18 @@ function App() {
 
   function getInitialData(email) {
     setLoggedIn(true);
+    api.getInitialCards().then((resp) => {
+      setCards(resp);
+    }).catch((err) => { console.log(err); });
+
     api.getUserData().then((response) => {
       setUserData({ ...response, email });
-      api.getInitialCards().then((resp) => {
-        setCards(resp);
-      });
     }).catch((err) => { console.log(err); });
   }
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token != null) {
+    if (token !== null) {
       auth.tokenValid(token).then((res) => {
         if (res) {
           getInitialData(res.data.email);
@@ -145,9 +150,10 @@ function App() {
 
   function handleRegister(registerData) {
     auth.register(registerData).then((res) => {
-      if (res != null) {
+      if (res !== null) {
         setRegisterSuccess(true);
         setInfoToolOpen(true);
+        history.push('/sign-in');
       }
     }).catch((err) => {
       console.log(err);
@@ -158,7 +164,7 @@ function App() {
 
   function handleLogin(loginData) {
     auth.logIn(loginData).then((res) => {
-      if (res != null) {
+      if (res !== null) {
         getInitialData(loginData.email);
       }
     }).catch((err) => {

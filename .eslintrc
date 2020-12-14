@@ -3,6 +3,7 @@
     "plugin:react/recommended"
   ],
   "globals": {
+    "history": true,
     "localStorage": true,
     "fetch":true,
     "console": true,
