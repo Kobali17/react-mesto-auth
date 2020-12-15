@@ -39,13 +39,10 @@ function App() {
 
   function getInitialData(email) {
     setLoggedIn(true);
-    api.getInitialCards().then((resp) => {
-      setCards(resp);
-    }).catch((err) => { console.log(err); });
-
-    api.getUserData().then((response) => {
+    return Promise.all([api.getInitialCards(), api.getUserData()]).then(([resp, response]) => {
       setUserData({ ...response, email });
-    }).catch((err) => { console.log(err); });
+      setCards(resp);
+    });
   }
 
   React.useEffect(() => {
@@ -165,7 +162,7 @@ function App() {
   function handleLogin(loginData) {
     auth.logIn(loginData).then((res) => {
       if (res !== null) {
-        getInitialData(loginData.email);
+        getInitialData(loginData.email).catch((err) => { console.log(err); });
       }
     }).catch((err) => {
       console.log(err); setRegisterSuccess(false);
@@ -216,7 +213,7 @@ function App() {
                          isOpen={isAddPlacePopupOpen}
                          onClose={closeAllPopups}/>
           <DelCardPopup onDelCard={handleCardDelete}
-                        isOpen={isDelPopupOpen}
+                        isOpen={isDelPopupOpen}A
                         onClose={closeAllPopups}/>
 
           <ImagePopup onClose={closeAllPopups} card={selectedCard}/>
